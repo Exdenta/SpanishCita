@@ -6,7 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
-def check_citas(nie_code: str, nombre_apellidos: str, office: str, tramite: str) -> bool:
+def check_citas(nie_code: str, nombre_apellidos: str, office: str, tramite: str, do_not_quit=False, sleep_time=5) -> bool:
     no_appointments_text = "En este momento no hay citas disponibles"
 
     # Initialize the Chrome driver
@@ -18,7 +18,7 @@ def check_citas(nie_code: str, nombre_apellidos: str, office: str, tramite: str)
         driver.get("https://icp.administracionelectronica.gob.es/icpplus/index.html")
         
         # Wait for the dropdown menu to be present and select "Barcelona"
-        wait = WebDriverWait(driver, 10)
+        wait = WebDriverWait(driver, 30)
         select_element = wait.until(EC.presence_of_element_located((By.ID, "form")))
         select = Select(select_element)
         select.select_by_visible_text("Barcelona")
@@ -104,7 +104,8 @@ def check_citas(nie_code: str, nombre_apellidos: str, office: str, tramite: str)
 
     finally:
         # Close the driver after a short delay to see the result
-        time.sleep(5)
+        time.sleep(sleep_time)
         check = no_appointments_text not in driver.page_source
-        driver.quit()
+        if not do_not_quit:
+            driver.quit()
         return check
