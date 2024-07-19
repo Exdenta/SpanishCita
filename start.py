@@ -19,7 +19,7 @@ def main():
     office = args.office
     tramite = args.tramite
 
-    check_citas(nie_code, nombre_apellidos, office, tramite, True, 1000000)
+    check_citas(nie_code, nombre_apellidos, office, tramite, True, 450)
 
 if __name__ == "__main__":
     main()

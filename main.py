@@ -1,6 +1,8 @@
 import argparse
+import time
 from web import check_citas
 from telegram_notify import send_telegram_message
+from find_queue_number import find_queue_number
 
 def parse_args():
     # Initialize the command-line argument parser
@@ -24,17 +26,28 @@ def main():
     telegram_token = args.telegram_token
     telegram_chat_id = args.telegram_chat_id
 
+    citas = [False] * 209
     # Check for citas
     while True:
-        citas_available = check_citas(nie_code, nombre_apellidos, office, tramite)
+        citas_available = check_citas(nie_code, nombre_apellidos, office, tramite, True, 250)
         if citas_available:
             message = "Citas available"
             print(message)
             send_telegram_message(telegram_token, telegram_chat_id, message)
         else:
-            message = "No citas available"
+            message = "-"
             print(message)
             # send_telegram_message(telegram_token, telegram_chat_id, message)
+        citas.append(citas_available)
+        if len(citas) % 10 == 0:
+            queue_number = find_queue_number(office, tramite)
+            found_citas = citas.count(True)
+            message = f"Statistics: checked {len(citas)}, found {found_citas}. Current queue number: {queue_number}"
+            print(message)
+            send_telegram_message(telegram_token, telegram_chat_id, message)
+
+        time.sleep(300)
+
 
 if __name__ == "__main__":
     main()

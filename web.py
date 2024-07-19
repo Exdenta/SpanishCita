@@ -8,6 +8,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 def check_citas(nie_code: str, nombre_apellidos: str, office: str, tramite: str, do_not_quit=False, sleep_time=5) -> bool:
     no_appointments_text = "En este momento no hay citas disponibles"
+    check = False
 
     # Initialize the Chrome driver
     service = Service(ChromeDriverManager().install())
@@ -105,7 +106,6 @@ def check_citas(nie_code: str, nombre_apellidos: str, office: str, tramite: str,
     finally:
         # Close the driver after a short delay to see the result
         time.sleep(sleep_time)
-        check = no_appointments_text not in driver.page_source
         if not do_not_quit:
             driver.quit()
-        return check
+        return False
