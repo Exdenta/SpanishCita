@@ -6,4 +6,4 @@ dependencies:
   - selenium=4.22
   - pip
   - pip:
-      - webdriver-manager
+      - webdriver-manager==4.0.1

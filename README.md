@@ -3,8 +3,29 @@
 Install dependencies and run
 (do not forget to change NIE, NAME, SURNAME and other params if needed)
 
+### 0. Download repo:
 ```(bash)
-./install.sh
+git clone https://github.com/Exdenta/SpanishCita.git
+cd SpanishCita
+```
+
+### 1. Install dependencies
+with conda:
+```(bash)
+./scripts/install_conda.sh
+```
+
+ with pip:
+```(bash)
+./scripts/install_pip.sh
+```
+
+### 2. Run
+```(bash)
+./run.sh
+```
+or
+```(bash)
 python3 main.py --nie_code="NIE" \
                 --nombre_apellidos="NAME SURNAME" \
                 --office="CNP MALLORCA GRANADOS, MALLORCA, 213" \
