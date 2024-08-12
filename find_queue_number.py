@@ -4,15 +4,15 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.firefox.service import Service
+from webdriver_manager.firefox import GeckoDriverManager
 
 def find_queue_number(office: str, tramite: str) -> int:
     queue_number = -1  # Default value if not found
 
     # Initialize the Chrome driver
-    service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=service)
+    service = Service(GeckoDriverManager().install())
+    driver = webdriver.Firefox(service=service)
 
     try:
         # Open the web page
@@ -56,7 +56,8 @@ def find_queue_number(office: str, tramite: str) -> int:
         match = re.search(r"EL ÚLTIMO LOTE RECIBIDO EN LA OFICINA SELECCIONADA ES EL \d+ / (\d+)", ac_info_text)
         if match:
             queue_number = int(match.group(1))
-        
+    except Exception as e:
+        print(str(e))
     finally:
         # Close the driver after a short delay to see the result
         driver.quit()

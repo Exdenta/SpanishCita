@@ -26,28 +26,29 @@ def main():
     telegram_token = args.telegram_token
     telegram_chat_id = args.telegram_chat_id
 
-    citas = [False] * 209
+    citas = [False] * 1339
     # Check for citas
     while True:
-        citas_available = check_citas(nie_code, nombre_apellidos, office, tramite, True, 250)
-        if citas_available:
-            message = "Citas available"
-            print(message)
-            send_telegram_message(telegram_token, telegram_chat_id, message)
-        else:
-            message = "-"
-            print(message)
-            # send_telegram_message(telegram_token, telegram_chat_id, message)
-        citas.append(citas_available)
-        if len(citas) % 10 == 0:
-            queue_number = find_queue_number(office, tramite)
-            found_citas = citas.count(True)
-            message = f"Statistics: checked {len(citas)}, found {found_citas}. Current queue number: {queue_number}"
-            print(message)
-            send_telegram_message(telegram_token, telegram_chat_id, message)
-
-        time.sleep(300)
-
+        try:
+            citas_available = check_citas(nie_code, nombre_apellidos, office, tramite, False, 250)
+            if citas_available:
+                message = "Citas available"
+                print(message)
+                send_telegram_message(telegram_token, telegram_chat_id, message)
+            else:
+                message = "-"
+                print(message)
+                # send_telegram_message(telegram_token, telegram_chat_id, message)
+            citas.append(citas_available)
+            if len(citas) % 10 == 0:
+                queue_number = find_queue_number(office, tramite)
+                found_citas = citas.count(True)
+                message = f"Statistics: checked {len(citas)}, found {found_citas}. Current queue number: {queue_number}"
+                print(message)
+                send_telegram_message(telegram_token, telegram_chat_id, message)
+            time.sleep(300)
+        except Exception as e:
+            print(str(e))
 
 if __name__ == "__main__":
     main()

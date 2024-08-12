@@ -3,16 +3,16 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.firefox.service import Service
+from webdriver_manager.firefox import GeckoDriverManager
 
 def check_citas(nie_code: str, nombre_apellidos: str, office: str, tramite: str, do_not_quit=False, sleep_time=5) -> bool:
     no_appointments_text = "En este momento no hay citas disponibles"
     check = False
 
     # Initialize the Chrome driver
-    service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=service)
+    service = Service(GeckoDriverManager().install())
+    driver = webdriver.Firefox(service=service)
 
     try:
         # Open the web page
