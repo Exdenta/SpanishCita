@@ -6,7 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.firefox.service import Service
 from webdriver_manager.firefox import GeckoDriverManager
 
-def check_citas(nie_code: str, nombre_apellidos: str, office: str, tramite: str, do_not_quit=False, sleep_time=5) -> bool:
+def check_citas(args, close_browser_tab=True) -> bool:
     no_appointments_text = "En este momento no hay citas disponibles"
     check = False
 
@@ -34,7 +34,7 @@ def check_citas(nie_code: str, nombre_apellidos: str, office: str, tramite: str,
         # Wait for the second dropdown menu to be present and select the option
         select_sede_element = wait.until(EC.presence_of_element_located((By.NAME, "sede")))
         select_sede = Select(select_sede_element)
-        select_sede.select_by_visible_text(office)
+        select_sede.select_by_visible_text(args.office)
         
         # Wait for the new elements to load after selecting the office
         wait.until(EC.presence_of_element_located((By.ID, "tramiteGrupo[0]")))
@@ -42,7 +42,7 @@ def check_citas(nie_code: str, nombre_apellidos: str, office: str, tramite: str,
         # Locate the new dropdown and select the desired option
         select_tramite_element = wait.until(EC.presence_of_element_located((By.ID, "tramiteGrupo[0]")))
         select_tramite = Select(select_tramite_element)
-        select_tramite.select_by_visible_text(tramite)
+        select_tramite.select_by_visible_text(args.tramite)
         
         # Click on the second "Aceptar" button
         second_accept_button = wait.until(EC.presence_of_element_located((By.ID, "btnAceptar")))
@@ -61,11 +61,11 @@ def check_citas(nie_code: str, nombre_apellidos: str, office: str, tramite: str,
 
         # Fill in the NIE code
         nie_input = wait.until(EC.presence_of_element_located((By.ID, "txtIdCitado")))
-        nie_input.send_keys(nie_code)
+        nie_input.send_keys(args.nie_code)
 
         # Fill in the nombre y apellidos
         nombre_input = wait.until(EC.presence_of_element_located((By.ID, "txtDesCitado")))
-        nombre_input.send_keys(nombre_apellidos)
+        nombre_input.send_keys(args.nombre_apellidos)
 
         # Click on the "Aceptar" button
         enviar_button = wait.until(EC.presence_of_element_located((By.ID, "btnEnviar")))
@@ -105,7 +105,7 @@ def check_citas(nie_code: str, nombre_apellidos: str, office: str, tramite: str,
 
     finally:
         # Close the driver after a short delay to see the result
-        time.sleep(sleep_time)
-        if not do_not_quit:
+        time.sleep(args.sleep_after_check)
+        if close_browser_tab:
             driver.quit()
         return False
