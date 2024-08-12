@@ -13,8 +13,7 @@ def log_result(citas_available: bool, args):
             print(message)
 
 
-def count_citas_found(args):
-    global citas
+def count_citas_found(citas: list, args):
     if not citas:
         citas = [False] * args.citas_checked_count
     
