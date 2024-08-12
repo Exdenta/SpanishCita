@@ -13,6 +13,7 @@ cd SpanishCita
 with conda:
 ```(bash)
 ./scripts/install_conda.sh
+conda activate ./env
 ```
 
  with pip:
