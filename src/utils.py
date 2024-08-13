@@ -14,10 +14,6 @@ def log_result(citas_available: bool, args):
 
 
 def count_citas_found(citas: list, args):
-    if not citas:
-        citas = [False] * args.citas_checked_count
-    
-    citas.append(args.citas_available)
     if len(citas) % args.telegram_send_message_offset == 0:
         queue_number = find_queue_number(args.office, args.tramite)
         found_citas = citas.count(True)

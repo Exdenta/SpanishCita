@@ -26,12 +26,13 @@ def main():
     # Parse the arguments
     args = parse_args()
     close_browser_tab = True
-    citas = []
+    citas = [False] * args.citas_checked_count
 
     while True:
         try:
             # Check for citas
             citas_available = check_citas(args, close_browser_tab)
+            citas.append(citas_available)
 
             # Print if a cita is found and send a message to Telegram
             log_result(citas_available, args)
