@@ -1,3 +1,8 @@
+This project needs update, it doesn't work
+
+
+
+
 # SpanishCita
 
 Install dependencies and run
